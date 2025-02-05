@@ -29,7 +29,7 @@ def _(editor):
         f.write(editor.value)
     err = False
     verilog_out = "UNKNOWN ERROR"
-    runrtn = subprocess.run(["verilator", "--binary", "-Wall", "testbench.sv", "dut.sv"], capture_output=True, text=True, timeout=3)
+    runrtn = subprocess.run(["verilator", "--binary", "-Wall", "testbench.sv", "dut.sv"], capture_output=True, text=True, timeout=10)
     if(runrtn.returncode!=0):
         verilog_out="Compilation output:\n"
         if(runrtn.stderr!=None):
@@ -44,7 +44,7 @@ def _(editor):
             verilog_out += runrtn.stderr
         verilog_out += "\n"
     if(not(err)):
-        runrtn = subprocess.run(["./obj_dir/Vtestbench"], capture_output=True, text=True, timeout=3)
+        runrtn = subprocess.run(["./obj_dir/Vtestbench"], capture_output=True, text=True, timeout=10)
         if(runrtn.returncode!=0):
             verilog_out += f"command returned error code {runrtn.returncode}"
             err = True
@@ -66,7 +66,7 @@ def myout(mo, verilog_out):
 def _(mo):
     with open("testbench.sv","r") as ftb:
         verilog = ftb.read()
-    mo.md(f"```\n{verilog}\n```\n")
+    mo.md(f"## Test Bench Code\n```\n{verilog}\n```\n")
     
 
 if __name__ == "__main__":
