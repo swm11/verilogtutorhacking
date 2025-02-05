@@ -7,6 +7,10 @@ Verilog to be entered and simulated.
 
 ## To Run
 
+To install:
+* Install Verilator and Python3
+* In a Python venv: `pip3 install marimo`
+
 To run use:
 ```
 marimo run standalone-marimo.py
