@@ -7,9 +7,10 @@ def _():
     import marimo as mo
     return (mo,)
 
-#@app.cell:
-#def _(mo):
-#    mo.
+@app.cell
+def _(mo):
+    mo.md("# Example of Verilog Simulation\n\n## Tutorial text\n\nModify the code below to see the impact on the simulation output.")
+    return
 
 @app.cell
 def _(mo):
