@@ -16,7 +16,7 @@ def _(mo):
 def _(mo):
     global code_eg
     initial_code = "CODE TEMPLATE MISSING"
-    with open("/app/dut_template.sv","r") as ftemplate:
+    with open("/user_files/dut_template.sv","r") as ftemplate:
         initial_code = ftemplate.read()
     editor = mo.ui.code_editor(value=initial_code, language="verilog")
     editor
@@ -64,7 +64,7 @@ def myout(mo, verilog_out):
 
 @app.cell
 def _(mo):
-    with open("/app/testbench.sv","r") as ftb:
+    with open("/user_files/testbench.sv","r") as ftb:
         verilog = ftb.read()
     mo.md(f"## Test Bench Code\n```\n{verilog}\n```\n")
     
