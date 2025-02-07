@@ -1,0 +1,3 @@
+#!/bin/bash
+chmod 777 user_files
+docker run --mount type=bind,src=./user_files,dst=/user_files -p 8080:8080 -it my_app
