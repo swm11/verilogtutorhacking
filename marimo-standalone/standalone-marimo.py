@@ -15,9 +15,11 @@ def _(mo):
 @app.cell
 def _(mo):
     global code_eg
-    initial_code = "CODE TEMPLATE MISSING"
-    with open("dut_template.sv","r") as ftemplate:
-        initial_code = ftemplate.read()
+    try:
+        with open("dut_template.sv","r") as ftemplate:
+            initial_code = ftemplate.read()
+    except:
+        initial_code = "ERROR: CODE TEMPLATE MISSING"
     editor = mo.ui.code_editor(value=initial_code, language="verilog")
     editor
     return editor, initial_code
