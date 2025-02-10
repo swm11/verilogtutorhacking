@@ -92,10 +92,13 @@ def myout(mo, verilog_out):
 
 @app.cell
 def _(mo):
+    mo.md(f"## Test Bench Code\n")
+
+@app.cell
+def _(mo):
     with open("tb_tlights.sv","r") as ftb:
         verilog = ftb.read()
-    mo.md(f"## Test Bench Code\n```\n{verilog}\n```\n")
-    
+    mo.ui.code_editor(value=verilog, language="verilog", disabled=True)
 
 if __name__ == "__main__":
     app.run()
