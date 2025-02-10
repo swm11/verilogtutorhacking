@@ -77,17 +77,17 @@ def simulate(mo,editor,simbutton):
             verilog_out += f"command returned error code {runrtn.returncode}"
             err = True
         else:
-            verilog_out = "Simulation output:\n"
+            verilog_out = "<b>Simulation output:</b>\n"
             if(runrtn.stdout!=None):
                 verilog_out += runrtn.stdout
-            if(runrtn.stderr!=None):
-                verilog_out += runrtn.stderr
+            #if(runrtn.stderr!=None):
+            #    verilog_out += runrtn.stderr
             verilog_out += "\n"
     return (verilog_out, )
 
 @app.cell
 def myout(mo, verilog_out):
-    mo.md(f"```\n{verilog_out}\n```\n")
+    mo.md(verilog_out.replace("\n","<br>\n"))
     return
 
 @app.cell

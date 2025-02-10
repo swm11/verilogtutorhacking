@@ -15,7 +15,20 @@ module tb_tlights();
    
    always @(negedge clk)
      begin
-	$display("time=%04d: ctr=%3b", $time, rag);
+	$write("time=%04d: ctr=%3b=", $time,rag);
+	if(rag[2]==1)
+	  $write("<span style=\"background-color: red\"><b>R</b></span>");
+	else
+	  $write("<b>-</b>");
+	if(rag[1]==1)
+	  $write("<span style=\"background-color: orange\"><b>A</b></span>");
+	else
+	  $write("<b>-</b>");
+	if(rag[0]==1)
+	  $write("<span style=\"background-color: green\"><b>G</b></span>");
+	else
+	  $write("<b>-</b>");
+	$display(" ");
 	if($time>100)
 	  $finish();
      end
