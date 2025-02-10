@@ -3,7 +3,19 @@ module tb_tlights();
    logic rst_n;
    logic [2:0] rag;
 
+   // add readable trace signals
+   logic       red, amber, green;
+   always_comb begin
+      red = rag[2];
+      amber = rag[1];
+      green = rag[0];
+   end
+   
    initial begin
+      // dump traces so we can see waveforms of signals
+      $dumpfile("tb_tlights_trace.fst");
+      $dumpvars(clk, rst_n, red, amber, green);
+      // initialise clock and reset
       clk = 0;
       rst_n = 0;
       #20 rst_n = 1;
@@ -16,15 +28,15 @@ module tb_tlights();
    always @(negedge clk)
      begin
 	$write("time=%04d: ctr=%3b=", $time,rag);
-	if(rag[2]==1)
+	if(red)
 	  $write("<span style=\"background-color: red\"><b>R</b></span>");
 	else
 	  $write("<b>-</b>");
-	if(rag[1]==1)
+	if(amber)
 	  $write("<span style=\"background-color: orange\"><b>A</b></span>");
 	else
 	  $write("<b>-</b>");
-	if(rag[0]==1)
+	if(green)
 	  $write("<span style=\"background-color: green\"><b>G</b></span>");
 	else
 	  $write("<b>-</b>");
@@ -32,6 +44,6 @@ module tb_tlights();
 	if($time>100)
 	  $finish();
      end
-   
+
 endmodule // testbench_tlight
 
