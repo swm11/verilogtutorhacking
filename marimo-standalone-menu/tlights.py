@@ -50,44 +50,49 @@ def _(mo):
 
 @app.cell
 def simulate(mo,editor,simbutton):
+    from sootty import WireTrace, Visualizer, Style
     import subprocess
     # don't run the simulation until the button has been pressed:
     mo.stop(not simbutton.value)
     with open("dut_tlights.sv","w") as f:
         f.write(editor.value)
     err = False
-    verilog_out = "UNKNOWN ERROR"
-    runrtn = subprocess.run(["verilator", "--binary", "-Wall", "tb_tlights.sv", "dut_tlights.sv"], capture_output=True, text=True, timeout=10)
+    simout = "UNKNOWN ERROR"
+    runrtn = subprocess.run(["verilator", "--binary", "--trace", "-Wall", "tb_tlights.sv", "dut_tlights.sv"], capture_output=True, text=True, timeout=10)
     if(runrtn.returncode!=0):
-        verilog_out="Compilation output:\n"
+        simout="Compilation output:\n"
         if(runrtn.stderr!=None):
-            verilog_out = runrtn.stderr
-        verilog_out = f"{verilog_out}\nReturned error code {runrtn.returncode}"
+            simout = runrtn.stderr
+        simout = f"{simout}\nReturned error code {runrtn.returncode}"
         err = True
     else:
-        verilog_out = "Compilation output:"
+        simout = "Compilation output:"
         if(runrtn.stdout!=None):
-            verilog_out += runrtn.stdout
+            simout += runrtn.stdout
         if(runrtn.stderr!=None):
-            verilog_out += runrtn.stderr
-        verilog_out += "\n"
+            simout += runrtn.stderr
+        simout += "\n"
     if(not(err)):
         runrtn = subprocess.run(["./obj_dir/Vtb_tlights"], capture_output=True, text=True, timeout=10)
         if(runrtn.returncode!=0):
-            verilog_out += f"command returned error code {runrtn.returncode}"
+            simout += f"command returned error code {runrtn.returncode}"
             err = True
         else:
-            verilog_out = "<b>Simulation output:</b>\n"
+            simout = "<b>Waveform viewer:</b>\n"
+            # Create wiretrace object from vcd file:
+            wiretrace = WireTrace.from_vcd("obj_dir/tb_tlights_trace.vcd")
+            # Convert wiretrace to svg:
+            image = Visualizer(Style.Dark).to_svg(wiretrace, start=0, length=130, wires="clk, rst_n, rag, red, amber, green")
+            simout += "<svg width=\"800\" height=\"250\">"+image.source+"</svg>"
+            simout += "<b>Text output from simulator:</b>\n"
             if(runrtn.stdout!=None):
-                verilog_out += runrtn.stdout
-            #if(runrtn.stderr!=None):
-            #    verilog_out += runrtn.stderr
-            verilog_out += "\n"
-    return (verilog_out, )
+                simout += runrtn.stdout
+            simout += "\n"
+    return (simout, )
 
 @app.cell
-def myout(mo, verilog_out):
-    mo.md(verilog_out.replace("\n","<br>\n"))
+def myout(mo, simout):
+    mo.md(simout.replace("\n","<br>\n"))
     return
 
 @app.cell
