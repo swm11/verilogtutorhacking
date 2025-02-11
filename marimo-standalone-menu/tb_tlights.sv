@@ -13,12 +13,12 @@ module tb_tlights();
    
    initial begin
       // dump traces so we can see waveforms of signals
-      $dumpfile("tb_tlights_trace.fst");
+      $dumpfile("obj_dir/tb_tlights_trace.vcd");
       $dumpvars(clk, rst_n, red, amber, green);
       // initialise clock and reset
-      clk = 0;
+      clk = 1;
       rst_n = 0;
-      #20 rst_n = 1;
+      #15 rst_n = 1;
    end
 
    always #5 clk <= !clk;
@@ -41,7 +41,7 @@ module tb_tlights();
 	else
 	  $write("<b>-</b>");
 	$display(" ");
-	if($time>100)
+	if($time>130)
 	  $finish();
      end
 
