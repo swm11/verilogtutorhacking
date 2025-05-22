@@ -10,7 +10,7 @@ TODO: authentication!
 
 To install:
 * Install Verilator and Python3
-* In a Python venv: `pip3 install marimo fastapi`
+* In a Python venv: `pip3 install marimo fastapi sootty`
 
 To run use:
 ```
