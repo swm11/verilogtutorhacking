@@ -33,3 +33,7 @@ TODO:
 ```
 pip install --upgrade certbot
 ```
+
+* Change the above to get a certificate installed for NGINX
+* Explore [https://dylancastillo.co/posts/fastapi-nginx-gunicorn.html](https://dylancastillo.co/posts/fastapi-nginx-gunicorn.html) to see how to deploy using NGINX
+
