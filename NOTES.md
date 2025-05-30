@@ -47,3 +47,8 @@ Based on [https://docs.marimo.io/guides/deploying/deploying_nginx/](https://docs
 
 * Start/restart the server: `sudo service nginx restart`
 
+
+## Connecting NGINX to Marimo
+
+NGINX has been configured to connect on local socket 2718, so Marimo can be started locally looking at this port.  E.g. see `verilogtutorhacking/marimo-standalone-menu/top.py`
+
